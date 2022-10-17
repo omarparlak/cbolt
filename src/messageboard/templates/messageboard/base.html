@@ -1,0 +1,26 @@
+{% load static %}
+<html>
+    <head>
+        <title>CloudBolt Message Board</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/messageboard.css' %}">
+    </head>
+    <body>
+        <div class="title-banner" id="content">
+            <div class="container">
+                <h1><a href="/">CloudBolt Message Board</a></h1>
+                <code><a href="/api/">API</a></code>
+            </div>
+        </div>
+
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-12">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

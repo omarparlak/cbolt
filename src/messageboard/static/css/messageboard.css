@@ -1,0 +1,36 @@
+.title-banner{
+    position: relative;
+    padding: 30px 0;
+    background-color: #4a8270;
+    margin-bottom: 1.5em;
+}
+
+.title-banner a{
+    color: #ffffff;
+}
+
+.title-banner a:hover {
+    color: #ffffff;
+}
+
+h2 {
+    color: #666666
+}
+
+a {
+    color: #4a8270;
+}
+
+a:hover { 
+    color: grey;
+}
+
+.btn-primary {
+    background-color: #4a8270;
+    border-color: #4a8270;
+}
+
+.btn-primary:hover { 
+    background-color: grey;
+    border-color: grey;
+}

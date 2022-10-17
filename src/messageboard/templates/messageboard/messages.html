@@ -1,0 +1,44 @@
+{% extends 'messageboard/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 pb-md-2">
+            <h2>
+                <a href="{{ thread.topic.get_url }}">{{ thread.topic.title }}</a>
+                &gt;
+                <a href="{{ thread.get_url }}">{{ thread.title }}</a>
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <b>Author:</b> <i>{{thread.author_name}}</i> </br>
+            <b>Created:</b> <i>{{thread.created_date}}</i>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-primary" href="{% url 'new_message' thread.topic.slug thread.id %}" role="button">New message</a>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="container">
+    <div class="row">
+        {% for message in messages %}
+        <div class="col-md-8 pb-md-2">
+            {{ message.content }}
+        </div>
+        <div class="col-md-4 pb-md-2">
+            <small><b>Author:</b> <i>{{message.author_name}}</i></small> </br>
+            <small><b>Created:</b> <i>{{message.created_date}}</i></small>
+        </div>
+        {% empty %}
+        <div class="col-md-8">
+            <i>No messages to display</i>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
