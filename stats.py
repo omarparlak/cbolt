@@ -13,7 +13,6 @@ class MessageBoardAPIWrapper:
 
     http://localhost:8080/api/
     """
-    #from django.db.backends.sqlite3 import connection
 
     
 
@@ -28,58 +27,48 @@ class MessageBoardAPIWrapper:
         """
         Returns the total number of messages.
         """
-        
+        #SQL QUERY FOR ALL MESSAGES
         self.cursor.execute("SELECT id FROM messageboard_message")
-        res1 = len(self.cursor.fetchall())   
+        res1 = len(self.cursor.fetchall())   #GET LENGTH OF LIST
         return res1
 
     def most_common_word(self) -> str:
         """
         Returns the most frequently used word in messages.
         """
-        # This script returns most recurring word in whole message of cursor.fetchall() 
-        # not checking each message for most used word and compareng them for another line. 
-        x=self.num_messages()
-        
+        # 
+        # x=self.num_messages()
+        #SQL QUERY FOR ALL MESSAGES
         self.cursor.execute("SELECT content FROM messageboard_message")
         data = str(self.cursor.fetchall())
-        data1 = re.sub(r'[^\w\s]', '', data)
-        datalower = data1.lower() 
-        datalist = datalower.split(" ")    
-        # most = max(datalist)
+        data1 = re.sub(r'[^\w\s]', '', data)        # CLEANUP
+        datalower = data1.lower()  #LOWERCASE
+        datalist = datalower.split(" ")  #CONVERT TO STRING   
+        
+            
+        # CREATE DICTIONARY AND COUNT WORDS 
         temp=defaultdict(int)  
-            
-        # create count dictionary from list of words
-        for sub in datalist:
-            temp[sub] += 1
+        for words in datalist:
+            temp[words] += 1
         
-        # getting max frequency
+        # MOST REPAETED
         res2 = max(temp, key=temp.get)
-        # print(result)
-        #print(temp)
-        # print("Word with maximum frequency : " + str(res))
         return res2
-           
-            
-            
-        
-        
-        
-
-
+    
     def avg_num_words_per_sentence(self) -> float:
         """
         Returns the average number of words per sentence.
         """
-        
+        #SQL QUERY FOR ALL MESSAGES
         self.cursor.execute("SELECT content FROM messageboard_message")
-        res1 = len(self.cursor.fetchall())  
-        data = str(self.cursor.fetchall())
+        res1 = len(self.cursor.fetchall())  #GET LENGTH OF LIST
+        #CONVERT MESSAGES TO PLAIN TEXT
+        data = str(self.cursor.fetchall())  
         data1 = re.sub(r'[^\w\s]', '', data)
         datalower = data1.lower() 
         datalist = datalower.split(" ")    
 
-        res3 = len(datalist) / res1
+        res3 = len(datalist) / res1 # WORDCOUNT DIVIDED BY MESSAGE QUANTITY
 
         return float(res3)
            
@@ -90,7 +79,7 @@ class MessageBoardAPIWrapper:
         Returns the average number of messages per thread, per topic.
         
         """
-
+        #SQL QUERY FOR ALL MESSAGES THREADS AND TOPICS
         self.cursor.execute("SELECT content FROM messageboard_message")
         messagesqty = len(self.cursor.fetchall())  
 
@@ -99,6 +88,8 @@ class MessageBoardAPIWrapper:
         
         self.cursor.execute("SELECT title FROM messageboard_topic")
         topicsqty = len(self.cursor.fetchall())
+        # "number of messages per thread" = MESSAGE QTY DIVIDED BY THREAD QTY
+        # "number of messages per topic"  = MESSAGE QTY DIVIDED BY TOPIC QTY
         my_dict = {str(messagesqty / threadsqty): float(messagesqty / topicsqty)}
         return my_dict
 
@@ -107,6 +98,7 @@ class MessageBoardAPIWrapper:
         Returns the entire messageboard as a nested dictionary.
         """
         
+        #SQL QUERY FOR ALL MESSAGES THREADS AND TOPICS
         self.cursor.execute("SELECT * FROM messageboard_message")
         messages = self.cursor.fetchall()
         self.cursor.execute("SELECT * FROM messageboard_thread")
@@ -114,11 +106,14 @@ class MessageBoardAPIWrapper:
         self.cursor.execute("SELECT * FROM messageboard_topic")
         topics = self.cursor.fetchall()
         
+        #CREATE DICTIONARIES
         final=dict()
         all_messages =dict()
         all_topics =dict()
         all_threads =dict()
         
+        # BELOW CODE IS NOT DONE  
+        # TRIED ANOTHER SCRIPT IN stats2.py TO DUMP ALL DATA IN FILE BUT NOT AS DICTIONARY.  
         for topic in topics:       
             for thread in threads:
                 if topic[0] == thread[4]:

@@ -1,5 +1,6 @@
 #This script appends all table data  in to messageboard.json file  as json dumps 
 
+
 import sqlite3
 import json
 
